@@ -1,52 +1,38 @@
 import mongoose from "mongoose";
 
-const jobSchema = new mongoose.Schema({
-    title: {
+const userSchema = new mongoose.Schema({
+    fullname: {
         type: String,
         required: true
     },
-    description: {
+    email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    requirements: [{
-        type: String
-    }],
-    salary: {
+    phoneNumber: {
         type: Number,
         required: true
     },
-    experienceLevel:{
-        type:Number,
+    password:{
+        type:String,
         required:true,
     },
-    location: {
-        type: String,
-        required: true
+    role:{
+        type:String,
+        enum:['student','recruiter'],
+        required:true
     },
-    jobType: {
-        type: String,
-        required: true
-    },
-    position: {
-        type: Number,
-        required: true
-    },
-    company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        required: true
-    },
-    created_by: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    applications: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Application',
+    profile:{
+        bio:{type:String},
+        skills:[{type:String}],
+        resume:{type:String}, // URL to resume file
+        resumeOriginalName:{type:String},
+        company:{type:mongoose.Schema.Types.ObjectId, ref:'Company'}, 
+        profilePhoto:{
+            type:String,
+            default:""
         }
-    ]
+    },
 },{timestamps:true});
-export const Job = mongoose.model("Job", jobSchema);
+export const User = mongoose.model('User', userSchema);
